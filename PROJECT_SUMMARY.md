@@ -69,7 +69,7 @@ npm start
 
 ```
 Webhook URL:
-http://148.230.85.245:3000/api/deploy/Dsr2Y026qszw8KiFeUnpM
+http://148.230.85.245:3000/api/deploy/MaUjuU3aY3P4byt7v4ckH
 ```
 
 当你的代码仓库发生变更或触发器触发时，请配置对应平台向该 URL 发送请求，即可完成自动重部署。
