@@ -41,6 +41,7 @@ export default function AudioConverter() {
   const dropZoneRef = useRef<HTMLDivElement>(null)
   const fileListRef = useRef<HTMLDivElement>(null)
   const currentProcessingIndexRef = useRef<number | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   // 初始化FFmpeg
   useEffect(() => {
@@ -85,6 +86,13 @@ export default function AudioConverter() {
     initFFmpeg()
   }, [])
 
+  // 转换完成后自动滚动到下载区域
+  useEffect(() => {
+    if (!converting && convertedFiles.length > 0 && convertedFiles.length === files.length) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [converting, convertedFiles.length, files.length])
+
   // 文件拖拽处理
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault()
@@ -108,10 +116,15 @@ export default function AudioConverter() {
   // 文件选择处理
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
-    handleFiles(selectedFiles)
+    // 选择器选择文件时采用替换模式：清空之前的文件、进度与结果
+    handleFiles(selectedFiles, true)
+    // 允许选择相同文件时也能触发 change
+    if (e.target) {
+      e.target.value = ''
+    }
   }
 
-  const handleFiles = (newFiles: File[]) => {
+  const handleFiles = (newFiles: File[], replace: boolean = false) => {
     const validFiles: File[] = []
     const errors: string[] = []
 
@@ -134,10 +147,18 @@ export default function AudioConverter() {
       type: file.type,
       file
     }))
-
-    setFiles(prev => [...prev, ...fileInfos])
-    setFileProgress(prev => [...prev, ...new Array(fileInfos.length).fill(0)])
-    setFileStatus(prev => [...prev, ...new Array(fileInfos.length).fill('idle') as Array<'idle'>])
+    
+    if (replace) {
+      setFiles(fileInfos)
+      setFileProgress(new Array(fileInfos.length).fill(0))
+      setFileStatus(new Array(fileInfos.length).fill('idle') as Array<'idle' | 'processing' | 'done' | 'error'>)
+      setConvertedFiles([])
+      setProgress(null)
+    } else {
+      setFiles(prev => [...prev, ...fileInfos])
+      setFileProgress(prev => [...prev, ...new Array(fileInfos.length).fill(0)])
+      setFileStatus(prev => [...prev, ...new Array(fileInfos.length).fill('idle') as Array<'idle'>])
+    }
     
     // 如果有有效文件被添加，显示成功提示并自动滚动到文件列表区域
     if (fileInfos.length > 0) {
@@ -159,7 +180,7 @@ export default function AudioConverter() {
           const seg = path.split('/').filter(Boolean)[0] || 'en'
           return `/${seg}`
         })()
-        const total = (files.length + fileInfos.length)
+        const total = (replace ? fileInfos.length : (files.length + fileInfos.length))
         if (total === 1) {
           const first = fileInfos[0]
           const ext = getFileExtension(first.name).toLowerCase()
@@ -191,6 +212,14 @@ export default function AudioConverter() {
     setProgress(null)
     setFileProgress([])
     setFileStatus([])
+  }
+
+  // 点击“转换更多文件”时回到上传区域
+  const handleConvertMore = () => {
+    clearFiles()
+    setTimeout(() => {
+      dropZoneRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
   }
 
   // 转换文件
@@ -505,7 +534,7 @@ export default function AudioConverter() {
           <div className="mt-8">
             <button
               onClick={convertFiles}
-              disabled={converting}
+              disabled={converting || convertedFiles.length > 0}
               className="btn-primary w-full text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {converting ? (
@@ -528,7 +557,7 @@ export default function AudioConverter() {
 
       {/* 转换结果 */}
       {convertedFiles.length > 0 && (
-        <div className="card-hover animate-slide-up">
+        <div ref={resultsRef} className="card-hover animate-slide-up">
           <div className="text-center mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center mx-auto mb-3">
               <CheckCircle className="w-6 h-6 text-green-600" />
@@ -562,7 +591,7 @@ export default function AudioConverter() {
           
           <div className="mt-6 text-center">
             <button
-              onClick={clearFiles}
+              onClick={handleConvertMore}
               className="btn-secondary"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
