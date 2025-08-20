@@ -1,6 +1,6 @@
 // TDK使用示例
 import { getTDK, generateMetadata } from './tdk'
-import { LANG_OPTIONS } from './languageConfig'
+import { LANG_OPTIONS, type LangCode } from './languageConfig'
 
 // 示例1: 获取特定语言的TDK配置
 export function exampleGetTDK() {
@@ -45,18 +45,16 @@ export function getSupportedLanguages() {
 }
 
 // 示例5: 语言检测和回退
-export function detectLanguage(userLang?: string, fallbackLang: string = 'en') {
-  const supportedLanguages = getSupportedLanguages().map(lang => lang.code)
-  
-  if (userLang && supportedLanguages.includes(userLang)) {
-    return userLang
+export function detectLanguage(userLang?: string, fallbackLang: LangCode = 'en'): LangCode {
+  const isLangCode = (v: string): v is LangCode => LANG_OPTIONS.some(l => l.code === v)
+  if (userLang && isLangCode(userLang)) {
+    return userLang as LangCode
   }
-  
   return fallbackLang
 }
 
 // 示例6: 在React组件中使用
-export function useTDK(lang: string = 'en') {
+export function useTDK(lang: LangCode = 'en') {
   const tdk = getTDK(lang)
   
   return {
