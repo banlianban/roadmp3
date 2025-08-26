@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { generateCanonicalUrl, generateAlternateUrls } from './canonicalUrl'
 
 export interface TDKConfig {
   title: string
@@ -113,18 +114,29 @@ export function getTDK(lang: string = 'en'): TDKConfig {
   return tdkConfigs[lang] || tdkConfigs.en
 }
 
-export function generateMetadata(lang: string = 'en'): Metadata {
+export function generateMetadata(lang: string = 'en', pathname: string = '/'): Metadata {
   const tdk = getTDK(lang)
+  const canonicalUrl = generateCanonicalUrl(pathname, lang)
+  const alternateUrls = generateAlternateUrls(pathname, lang)
+  
   return {
     title: tdk.title,
     description: tdk.description,
     keywords: tdk.keywords,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: alternateUrls.reduce((acc, item) => {
+        acc[item.hreflang] = item.href
+        return acc
+      }, {} as Record<string, string>)
+    },
     openGraph: {
       title: tdk.title,
       description: tdk.description,
       type: 'website',
       locale: lang,
-      siteName: 'RoadMP3'
+      siteName: 'RoadMP3',
+      url: canonicalUrl
     },
     twitter: {
       card: 'summary_large_image',

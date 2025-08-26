@@ -12,11 +12,14 @@ const inter = Inter({ subsets: ['latin'] })
 // 基于 Cookie 动态生成 metadata（Next.js 会在服务端执行此函数）
 export async function generateMetadata(): Promise<Metadata> {
   const langCookie = cookies().get('lang')?.value || 'en'
-  const baseMetadata = generateTDKMetadata(langCookie)
+  const baseMetadata = generateTDKMetadata(langCookie, '/')
   
   return {
     ...baseMetadata,
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://roadmp3.com'),
+    verification: {
+      google: 'JemmzyxGt-4szeq0OHh6ukF3hBzDWjxxPTBytz1shZM',
+    },
     icons: {
       icon: '/favicon.ico',
       shortcut: '/favicon.ico',

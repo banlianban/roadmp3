@@ -7,7 +7,8 @@ import { getHtmlLang } from '@/utils/languageConfig'
 const inter = Inter({ subsets: ['latin'] })
 
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
-  return genTDK(params.lang)
+  const pathname = `/${params.lang}`
+  return genTDK(params.lang, pathname)
 }
 
 export default function LangLayout({
