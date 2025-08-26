@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { generateCanonicalUrl, generateAlternateUrls } from './canonicalUrl'
+import { generateCompleteStructuredData } from './structuredData'
 
 export interface TDKConfig {
   title: string
@@ -118,6 +119,7 @@ export function generateMetadata(lang: string = 'en', pathname: string = '/'): M
   const tdk = getTDK(lang)
   const canonicalUrl = generateCanonicalUrl(pathname, lang)
   const alternateUrls = generateAlternateUrls(pathname, lang)
+  const structuredData = generateCompleteStructuredData(pathname, lang)
   
   return {
     title: tdk.title,
@@ -136,12 +138,30 @@ export function generateMetadata(lang: string = 'en', pathname: string = '/'): M
       type: 'website',
       locale: lang,
       siteName: 'RoadMP3',
-      url: canonicalUrl
+      url: canonicalUrl,
+      images: [
+        {
+          url: 'https://roadmp3.com/favicon.ico',
+          width: 32,
+          height: 32,
+          alt: 'RoadMP3 Logo'
+        }
+      ]
     },
     twitter: {
       card: 'summary_large_image',
       title: tdk.title,
-      description: tdk.description
+      description: tdk.description,
+      images: ['https://roadmp3.com/favicon.ico']
+    },
+    other: {
+      // 结构化数据
+      'application/ld+json': JSON.stringify([
+        structuredData.website,
+        structuredData.organization,
+        structuredData.software,
+        structuredData.breadcrumb
+      ])
     }
   }
 } 

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import StructuredData from '@/components/StructuredData'
 import { cookies } from 'next/headers'
 import { generateMetadata as generateTDKMetadata } from '@/utils/tdk'
 import { getHtmlLang } from '@/utils/languageConfig'
@@ -54,6 +55,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body className={inter.className}>
+        <StructuredData pathname="/" lang={langCookie} />
         <ErrorBoundary>
           {children}
         </ErrorBoundary>

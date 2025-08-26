@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import StructuredData from '@/components/StructuredData'
 import { generateMetadata as genTDK } from '@/utils/tdk'
 import { getHtmlLang } from '@/utils/languageConfig'
 
@@ -22,6 +23,7 @@ export default function LangLayout({
   return (
     <html lang={htmlLang}>
       <body className={inter.className}>
+        <StructuredData pathname={`/${params.lang}`} lang={params.lang} />
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
