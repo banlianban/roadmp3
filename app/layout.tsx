@@ -26,6 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://roadmp3.com'),
     verification: {
       google: 'JemmzyxGt-4szeq0OHh6ukF3hBzDWjxxPTBytz1shZM',
+      yandex: '45fe07b98815fad1',
     },
     icons: {
       icon: '/favicon.ico',
