@@ -4,11 +4,17 @@ import Script from 'next/script'
 import './globals.css'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import StructuredData from '@/components/StructuredData'
+import PerformanceOptimizer from '@/components/PerformanceOptimizer'
 import { cookies } from 'next/headers'
 import { generateMetadata as generateTDKMetadata } from '@/utils/tdk'
 import { getHtmlLang } from '@/utils/languageConfig'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap', // 优化字体加载性能
+  preload: true,
+  fallback: ['system-ui', 'arial']
+})
 
 // 基于 Cookie 动态生成 metadata（Next.js 会在服务端执行此函数）
 export async function generateMetadata(): Promise<Metadata> {
@@ -56,6 +62,7 @@ export default async function RootLayout({
       </head>
       <body className={inter.className}>
         <StructuredData pathname="/" lang={langCookie} />
+        <PerformanceOptimizer />
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
