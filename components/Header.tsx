@@ -46,42 +46,52 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-transparent backdrop-blur-xl shadow-soft sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 relative">
-        <div className="flex items-center justify-center">
+    <header className="bg-slate-900/80 backdrop-blur-xl border-b border-white/10 shadow-soft sticky top-0 z-50">
+      <div className="container mx-auto px-6 py-3 relative">
+        <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-accent-600 rounded-2xl flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-all duration-300 transform group-hover:scale-110">
-              <Music className="w-7 h-7 text-white" />
+          <div className="flex items-center space-x-4 group">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary-500 via-accent-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-all duration-300 transform group-hover:scale-105 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <Music className="w-6 h-6 text-white relative z-10" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gradient-accent">{t('title')}</h1>
-              <p className="text-sm text-gray-500 font-medium">{t('subtitle')}</p>
+              <h1 className="text-xl font-bold text-gradient-accent leading-tight">{t('title')}</h1>
+              <p className="text-sm text-gray-400 font-medium mt-1">{t('subtitle')}</p>
             </div>
           </div>
-        </div>
 
-        {/* 语言切换 */}
-        <div className="absolute right-4 top-1/2 -translate-y-1/2" id="lang-selector">
-          <button onClick={() => setOpen(v => !v)} className="btn-secondary px-3 py-2 text-sm">
-            <Globe className="w-4 h-4" />
-            <span className="ml-1">{LANG_OPTIONS.find(o => o.code === lang)?.label || '中文'}</span>
-            <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${open ? 'rotate-180' : ''}`} />
-          </button>
-          {open && (
-            <div className="absolute right-0 mt-2 w-44 max-h-80 overflow-auto bg-white rounded-xl border border-gray-200 shadow-medium">
-              {LANG_OPTIONS.map(option => (
-                <button
-                  key={option.code}
-                  className={`w-full text-left px-3 py-2 hover:bg-gray-50 flex items-center justify-between ${lang === option.code ? 'text-primary-600' : 'text-gray-700'}`}
-                  onClick={() => applyLang(option.code)}
-                >
-                  <span>{option.label}</span>
-                  {lang === option.code && <Check className="w-4 h-4" />}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* 语言切换 */}
+          <div className="relative" id="lang-selector">
+            <button 
+              onClick={() => setOpen(v => !v)} 
+              className="flex items-center gap-2 px-3 py-2 bg-slate-800/60 hover:bg-slate-700/60 backdrop-blur-sm rounded-xl border border-white/10 text-white/90 hover:text-white transition-all duration-300 shadow-soft hover:shadow-medium"
+            >
+              <Globe className="w-4 h-4" />
+              <span className="text-sm font-medium">{LANG_OPTIONS.find(o => o.code === lang)?.label || '中文'}</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+            </button>
+            {open && (
+              <div className="absolute right-0 mt-3 w-48 max-h-80 overflow-auto bg-slate-800/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-soft">
+                <div className="p-2">
+                  {LANG_OPTIONS.map(option => (
+                    <button
+                      key={option.code}
+                      className={`w-full text-left px-4 py-3 rounded-xl hover:bg-slate-700/60 flex items-center justify-between transition-all duration-200 ${
+                        lang === option.code 
+                          ? 'text-accent-400 bg-slate-700/40' 
+                          : 'text-white/80 hover:text-white'
+                      }`}
+                      onClick={() => applyLang(option.code)}
+                    >
+                      <span className="text-sm font-medium">{option.label}</span>
+                      {lang === option.code && <Check className="w-4 h-4 text-accent-400" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

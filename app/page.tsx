@@ -21,28 +21,31 @@ export default function Home() {
 
       <Header />
       
-      <main className="container mx-auto px-4 py-8 relative z-10">
+      <main className="container mx-auto px-4 py-16 relative z-10">
         {/* 英雄区域 */}
-        <section className="text-center mb-20 animate-fade-in">
-          <div className="inline-flex items-center gap-2 bg-slate-800/70 backdrop-blur-sm rounded-full px-6 py-3 mb-8 shadow-soft border border-white/10">
-            <Sparkles className="w-5 h-5 text-accent-400 animate-pulse" />
-            <span className="text-sm font-medium text-white/90">{t('hero_badge')}</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold text-gradient-accent mb-6 leading-tight whitespace-nowrap">
+        <section className="text-center mb-20 animate-fade-in pt-12">
+          <h1 className="text-5xl md:text-7xl font-bold text-gradient-accent mb-8 leading-tight whitespace-nowrap">
             {t('hero_title')}
           </h1>
           
-          <p className="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed mb-8">
+          <p className="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed mb-12">
             {t('hero_subtitle')}
-            <br />
-            <span className="text-white font-semibold bg-white/10 border border-white/20 px-4 py-2 rounded-full inline-block mt-3">
-              {t('hero_specs')}
-            </span>
           </p>
+          
+          {/* 徽章和技术规格 - 同一行显示 */}
+          <div className="flex justify-center items-center gap-6 mb-12">
+            <div className="inline-flex items-center gap-3 bg-slate-800/70 backdrop-blur-sm rounded-full px-8 py-4 shadow-soft border border-white/10 hover:bg-slate-700/70 transition-all duration-300">
+              <Sparkles className="w-6 h-6 text-accent-400 animate-pulse" />
+              <span className="text-base font-medium text-white/90">{t('hero_badge')}</span>
+            </div>
+            
+            <div className="inline-flex items-center gap-3 bg-slate-800/70 backdrop-blur-sm rounded-full px-8 py-4 shadow-soft border border-white/10 hover:bg-slate-700/70 transition-all duration-300">
+              <span className="text-base font-medium text-white/90">{t('hero_specs')}</span>
+            </div>
+          </div>
 
           {/* 开始转换功能（移至此处） */}
-          <div className="max-w-4xl mx-auto animate-scale-in">
+          <div className="max-w-4xl mx-auto animate-scale-in mt-8">
             <AudioConverter />
           </div>
         </section>
