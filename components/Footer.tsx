@@ -74,6 +74,35 @@ export default function Footer() {
                 <span className="group-hover:text-primary-300">Discord</span>
                 <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </a>
+              
+              {/* Product Hunt Badge */}
+              <div className="mt-4">
+                <a 
+                  href="https://www.producthunt.com/products/roadmp3" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
+                >
+                  {/* Product Hunt Logo */}
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-gray-900 font-bold text-lg">P</span>
+                  </div>
+                  
+                  {/* Text Section */}
+                  <div className="flex flex-col">
+                    <span className="text-xs text-gray-400 uppercase tracking-wide">Find us on</span>
+                    <span className="text-sm font-bold">Product Hunt</span>
+                  </div>
+                  
+                  {/* Upvote Section */}
+                  <div className="flex flex-col items-center ml-2">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs font-medium">6</span>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>
