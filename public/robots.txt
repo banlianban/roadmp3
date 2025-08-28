@@ -1,6 +1,27 @@
 User-agent: *
 Allow: /
 
+# 确保所有语言页面都可以被索引
+Allow: /zh/
+Allow: /ja/
+Allow: /ko/
+Allow: /fr/
+Allow: /de/
+Allow: /es/
+Allow: /ru/
+Allow: /it/
+Allow: /pt/
+Allow: /tr/
+Allow: /nl/
+Allow: /pl/
+Allow: /uk/
+Allow: /vi/
+Allow: /th/
+Allow: /id/
+Allow: /ms/
+Allow: /ar/
+Allow: /he/
+
 Sitemap: https://roadmp3.com/sitemap.xml
 
 # Crawl-delay for respectful crawling
