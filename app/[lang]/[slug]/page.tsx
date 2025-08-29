@@ -1,8 +1,13 @@
-export { default } from '@/app/page'
+import ServerHomePage from '@/components/ServerHomePage'
 import { LANG_OPTIONS } from '@/utils/languageConfig'
 import { CONVERSION_SLUGS } from '@/utils/routeSlugs'
 import { generateMetadata as genTDK } from '@/utils/tdk'
 import type { Metadata } from 'next'
+
+// 服务器端组件
+export default function SlugHomePage() {
+  return <ServerHomePage />
+}
 
 export const dynamicParams = false
 

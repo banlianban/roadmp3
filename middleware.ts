@@ -11,47 +11,31 @@ export function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
-  // 允许 /{lang} 或 /{lang}/{slug}（slug 需在白名单内）
+  // 允许静态资源通过
+  if (pathname.startsWith('/_next') || 
+      pathname.startsWith('/favicon') || 
+      pathname.startsWith('/sitemap') || 
+      pathname.startsWith('/robots') ||
+      pathname.includes('.')) {
+    return NextResponse.next()
+  }
+
+  // 简化逻辑：允许所有语言页面直接访问
   const parts = pathname.split('/').filter(Boolean)
   if (parts.length >= 1) {
     const langOk = LANG_OPTIONS.some(l => l.code === parts[0])
     if (langOk) {
-      if (parts.length === 1) return NextResponse.next()
-      // 第二段 slug 校验
-      const { CONVERSION_SLUGS } = require('@/utils/routeSlugs') as typeof import('@/utils/routeSlugs')
-      if (!parts[1] || CONVERSION_SLUGS.includes(parts[1])) {
-        return NextResponse.next()
-      }
+      // 语言页面直接通过
+      return NextResponse.next()
     }
   }
 
-  // 根路径或非语言前缀路径，重定向到最佳语言
+  // 根路径直接通过，不重定向（SEO友好）
   if (pathname === '/' || pathname === '') {
-    // 从 cookie 或浏览器语言选择最优语言
-    const cookieLang = req.cookies.get('lang')?.value
-    const byCookie = LANG_OPTIONS.find(l => l.code === cookieLang)
-    let target = byCookie?.code
-
-    if (!target) {
-      const header = req.headers.get('accept-language') || ''
-      const candidates = header.split(',').map(p => p.split(';')[0].trim().toLowerCase())
-      for (const cand of candidates) {
-        const primary = cand.split('-')[0]
-        const byHtml = LANG_OPTIONS.find(l => l.html.toLowerCase() === cand)
-        if (byHtml) { target = byHtml.code; break }
-        const byPrimary = LANG_OPTIONS.find(l => l.code === primary)
-        if (byPrimary) { target = byPrimary.code; break }
-      }
-    }
-
-    if (!target) target = 'en'
-
-    const url = req.nextUrl.clone()
-    url.pathname = `/${target}`
-    return NextResponse.redirect(url)
+    return NextResponse.next()
   }
 
-  // 其它不受支持的路径统一重定向到 /en，避免 404
+  // 其他路径重定向到英文
   const url = req.nextUrl.clone()
   url.pathname = '/en'
   return NextResponse.redirect(url)

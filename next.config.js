@@ -4,6 +4,10 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
+  // SEO优化配置
+  trailingSlash: false,
+  generateEtags: true,
+  
   // 实验性功能
   experimental: {
     optimizePackageImports: ['lucide-react'],

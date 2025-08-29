@@ -1,17 +1,17 @@
-'use client'
-
-import { useState, useRef, useEffect } from 'react'
-import { Upload, Music, Video, Download, Settings, Play, Pause, RotateCcw, Sparkles, Zap, Shield, Clock, CheckCircle, Star } from 'lucide-react'
-import AudioConverter from '@/components/AudioConverter'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import BackgroundAnimation from '@/components/BackgroundAnimation'
-import { useScrollAnimation } from '@/utils/useScrollAnimation'
-import { useLanguage } from '@/utils/i18n'
+import { Suspense } from 'react'
+import ClientHomePage from '@/components/ClientHomePage'
 
 export default function Home() {
-  const { t } = useLanguage()
-  useScrollAnimation()
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-black flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    }>
+      <ClientHomePage />
+    </Suspense>
+  )
+}
 
 
 
