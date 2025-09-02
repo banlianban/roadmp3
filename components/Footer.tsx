@@ -115,6 +115,23 @@ export default function Footer() {
           <p className="text-gray-400 text-base mb-3">
             {t('copyright')}
           </p>
+          
+          {/* SeekTool.ai 反链 */}
+          <div className="mt-4">
+            <p className="text-gray-500 text-sm mb-2">推荐工具目录</p>
+            <a 
+              href="https://seektool.ai/" 
+              title="SeekTool.ai Tools Directory"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-primary-300 transition-all duration-300 group"
+            >
+              <span className="group-hover:scale-105 transition-transform duration-300">
+                SeekTool.ai Tools Directory
+              </span>
+              <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
