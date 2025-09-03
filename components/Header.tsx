@@ -29,18 +29,21 @@ export default function Header() {
     // 触发语言变化事件，让其他组件能够响应
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('languageChange', { detail: next }))
-      // 切换到语言前缀路由，如 /en /zh
+      
+      // 只有在当前路径包含语言代码时才进行路由跳转
       const current = new URL(window.location.href)
       const parts = current.pathname.split('/').filter(Boolean)
-      // 如果第一段已是语言码则替换，否则在前面加一段
       const supported = ['en','zh','ja','ko','fr','de','es','ru','it','pt','tr','nl','pl','uk','vi','th','id','ms','ar','he']
-      if (parts.length && supported.includes(parts[0])) {
-        parts[0] = next
-      } else {
-        parts.unshift(next)
+      
+      // 如果当前路径已经包含语言代码，则更新语言代码
+      if (parts.length > 0 && supported.includes(parts[0])) {
+        if (parts[0] !== next) {
+          parts[0] = next
+          const nextPath = '/' + parts.join('/')
+          window.location.assign(nextPath)
+        }
       }
-      const nextPath = '/' + parts.join('/')
-      window.location.assign(nextPath)
+      // 如果当前路径不包含语言代码（如主页 /），则不进行跳转，只更新语言状态
     }
     setOpen(false)
   }

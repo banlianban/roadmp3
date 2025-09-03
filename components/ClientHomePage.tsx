@@ -6,6 +6,7 @@ import AudioConverter from '@/components/AudioConverter'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BackgroundAnimation from '@/components/BackgroundAnimation'
+import ShareButton from '@/components/ShareButton'
 import { useScrollAnimation } from '@/utils/useScrollAnimation'
 import { useLanguage } from '@/utils/i18n'
 
@@ -104,6 +105,9 @@ export default function ClientHomePage() {
       </main>
 
       <Footer />
+      
+      {/* 悬浮分享按钮 */}
+      <ShareButton />
     </div>
   )
 } 
