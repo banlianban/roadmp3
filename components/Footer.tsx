@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, ExternalLink, Music, Shield, Zap } from 'lucide-react'
+import { Heart, MessageCircle, ExternalLink, Music, Shield, Zap, Mail } from 'lucide-react'
 import { useLanguage } from '@/utils/i18n'
 
 export default function Footer() {
@@ -63,7 +63,7 @@ export default function Footer() {
             </h4>
             <div className="space-y-4">
               <a 
-                href="https://discord.gg/PZT9qXPt" 
+                href="https://discord.gg/p8gT9qM5" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-all duration-300 group"
@@ -73,6 +73,17 @@ export default function Footer() {
                 </div>
                 <span className="group-hover:text-primary-300">Discord</span>
                 <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </a>
+              
+              {/* 邮件联系方式 */}
+              <a 
+                href="mailto:support@roadmp3.com" 
+                className="flex items-center gap-3 text-gray-300 hover:text-white transition-all duration-300 group"
+              >
+                <div className="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <span className="group-hover:text-primary-300">support@roadmp3.com</span>
               </a>
               
               {/* Product Hunt Badge */}
